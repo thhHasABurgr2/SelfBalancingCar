@@ -1,6 +1,8 @@
 #ifndef SymMatrix_h
 #define SymMatrix_h
-#include "SymMatrix.h"
+#include <string>
+#include "Matrix.h"
+#include <iostream>
 /*
 
 Here's my idea: 
@@ -16,30 +18,108 @@ semicolon denotes end (so that I dont have to worry abt matching curly braces)
 using a template sctruct for input and mapping for symbolic value to float
 
 
+
+
 */
-template struct Input{
-    String symValue
-    float  numValue
-}
+enum class Type{
+    CONST,
+    SYM
+};
+
+class Variable{
+    private:
+    float numValue;
+    std::string symValue;
+    Type type;
+    public:
+    Variable(float numValue_,std::string symValue_){
+        numValue=numValue_;
+        symValue=symValue_;
+        if(symValue_=="")type=Type::CONST; else type =Type::SYM;
+    }
+    Variable(float numValue_) : Variable(numValue_, "") {}// constructor delegation
+
+
+    //getters and setters
+    void setVar(std::string var){
+        symValue=var;
+    }
+    void setVal(float val){
+        numValue=val;
+    }
+    std::string getType ()const{
+        return type==Type::CONST ? "CONST" : "SYMBOLIC";
+        
+    }
+    std::string getVar ()const{
+        return (type==Type::CONST) ? std::to_string(numValue): symValue;
+    }
+    float getVal ()const{
+        return numValue;
+    }
+    //basic arithmetic
+
+    Variable add (const Variable& var)const{;//wait this tracks changes made to a nameless variable too. thats cool
+        return Variable(this->numValue+var.getVal(),this->symValue+" + "+var.getVar());
+    }
+    Variable operator+ (const Variable& var)const{
+        return this->add(var);
+    }
+    Variable subtract (const Variable& var)const{;//wait this tracks changes made to a nameless variable too. thats cool
+        return Variable(this->numValue-var.getVal(),this->symValue+" - "+var.getVar());
+    }
+    Variable operator-(const Variable& var)const{
+        return this->subtract(var);
+    }
+    Variable multiply (const Variable& var)const{;//wait this tracks changes made to a nameless variable too. thats cool
+        return Variable(this->numValue*var.getVal(),this->symValue+" * "+var.getVar());
+    }
+    Variable operator* (const Variable& var)const{
+        return this->multiply(var);
+    }
+    Variable divide (const Variable& var)const{;//wait this tracks changes made to a nameless variable too. thats cool
+        float result= (var.getVal()!=0.0f) ?  (this->numValue/var.getVal()) : 0.0f;
+        return Variable( result,this->symValue+(" / "+var.getVar()));
+    }
+    Variable operator/ (const Variable& var)const{
+        return this->divide(var);
+    }
+
+};
+
+struct Element{
+    /*
+    ParseCode instructions
+    std::vector<Variable> dependentParams
+    
+    */
+};
 
 template<uint8_t row,uint8_t col> class SymMatrix{
     private:
-    float matrix[row][col];
+    Element matrix[row][col];
+    uint8_t countVars=0;
     public:
+
     void initialize(){
-        for(uint8_t i=1; i<=row;i++){
-            for(uint8_t j=1; j<=col;j++){
-                matrix[i-1][j-1]=0;
+        
+        for(uint8_t i=0; i<row;i++){
+            for(uint8_t j=0; j<col;j++){
+                matrix[i][j]= new Element(Type::CONST,"",0.0);
             }
         }
-
     }
+    SymMatrix(){
+        initialize();
+    }
+    
 
     
-    void set(uint8_t row, uint8_t col, float num){
+    void set(uint8_t row, uint8_t col, Element* num){
         matrix[row-1][col-1]=num;
+        if(num->type==Type::SYM) countVars++;
     }
-    float getElem(uint8_t row, uint8_t col){
+    Element* getElem(uint8_t row, uint8_t col){
         return matrix[row-1][col-1];
     }
     static constexpr uint8_t rows() { 
@@ -48,30 +128,14 @@ template<uint8_t row,uint8_t col> class SymMatrix{
     static constexpr uint8_t cols() { 
         return col; 
     }
+    Matrix<row,col>* eval(){
+        Matrix<row,col>
+    }
+
 };
 
 
-template<uint8_t r,uint8_t c,uint8_t rowLHS,uint8_t rowRHS,uint8_t colLHS,uint8_t colRHS>
-SymMatrix<r,c> matmul(const SymMatrix<rowLHS,colLHS>& lhs, const SymMatrix<rowRHS,colRHS>& rhs){
-    
-    
-    
-    static_assert(colLHS==rowRHS,"dimension mismatch");
 
-    
-    SymMatrix<rowLHS,colRHS> product;
-    for(uint8_t i=1; i<=rowLHS;i++){
-        for(uint8_t j=1; j<=colRHS;j++){
-            float sum=0;
-            for(uint8_t k=1;k<=rowRHS;k++){
-                sum+=lhs.getElem(i,k) * rhs.getElem(k,j);
-            }
-            product.set(i,j,sum);
-
-        }
-    }
-    return product;
-}
 
 
 #endif

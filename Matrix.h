@@ -12,9 +12,9 @@ template<uint8_t row,uint8_t col> class Matrix{
     float matrix[row][col];
     public:
     void initialize(){
-        for(uint8_t i=1; i<=row;i++){
-            for(uint8_t j=1; j<=col;j++){
-                matrix[i-1][j-1]=0;
+        for(uint8_t i=0; i<row;i++){
+            for(uint8_t j=0; j<col;j++){
+                matrix[i][j]=0.0f;
             }
         }
 
@@ -22,10 +22,10 @@ template<uint8_t row,uint8_t col> class Matrix{
 
     
     void set(uint8_t row, uint8_t col, float num){
-        matrix[row-1][col-1]=num;
+        matrix[row][col]=num;
     }
     float getElem(uint8_t row, uint8_t col){
-        return matrix[row-1][col-1];
+        return matrix[row][col];
     }
     static constexpr uint8_t rows() { 
         return row; 
@@ -45,10 +45,10 @@ Matrix<r,c> matmul(const Matrix<rowLHS,colLHS>& lhs, const Matrix<rowRHS,colRHS>
 
     
     Matrix<rowLHS,colRHS> product;
-    for(uint8_t i=1; i<=rowLHS;i++){
-        for(uint8_t j=1; j<=colRHS;j++){
-            float sum=0;
-            for(uint8_t k=1;k<=rowRHS;k++){
+    for(uint8_t i=0; i<rowLHS;i++){
+        for(uint8_t j=0; j<colRHS;j++){
+            float sum=0.0f;
+            for(uint8_t k=0;k<rowRHS;k++){
                 sum+=lhs.getElem(i,k) * rhs.getElem(k,j);
             }
             product.set(i,j,sum);
