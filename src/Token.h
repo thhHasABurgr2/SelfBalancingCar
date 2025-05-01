@@ -1,6 +1,9 @@
 #include <string>
 #include<iostream>
+<<<<<<< HEAD
 #include<memory>
+=======
+>>>>>>> e765849e95c897eb133c26dfce7e26a3bf08c7af
 #ifndef TOKEN_H
 #define TOKEN_H
 /*
@@ -34,11 +37,23 @@ enum class State{
     q3,//!
     q4,// operations:+,-,*,/
     q5,//;
+<<<<<<< HEAD
     q6,// symbol
     q7, // (
     q8, // )
     q9,//=
     qMatrix,// matrix state
+=======
+    q6,// &
+    q7,// "\"
+    q8, // (
+    q9, // )
+    q10,//=
+    q11, // .
+    qA,//A matrix
+    qB,//B matrix
+    qC,//C matrix
+>>>>>>> e765849e95c897eb133c26dfce7e26a3bf08c7af
     qT, // T(period)
     qerr,//dont recognize or no DSA path for nonsense input
 };
@@ -58,6 +73,7 @@ enum class Lexeme{
     FLAG,// stuff that start with !
     IDENTIFIER,// variables, symbolic or not
     NUMBER,//floats and numbers
+<<<<<<< HEAD
     OPERATION, //  +,-,*,/, 
     SYMBOL,// &,//
     MATRIX// A, B, and C
@@ -66,6 +82,16 @@ enum class Lexeme{
     SEMICOLON,// ;
     FRONTPAREN,//(
     BACKPAREN,//)
+=======
+    OPERATION, //  +,-,*,/, ()
+    SYMBOL,// &,//
+    A,// A matrix
+    B,// B matrix
+    C,// C matrix
+    T,// period
+    EQUAL,// =
+    SEMICOLON,// ;
+>>>>>>> e765849e95c897eb133c26dfce7e26a3bf08c7af
     UNKNOWN,
  
 };
@@ -75,6 +101,7 @@ class Token{
     std::string content;
     Lexeme lexeme;
     bool finalized;
+<<<<<<< HEAD
     std::unique_ptr<Token> nextToken;
     State currState;
     bool flag;
@@ -82,6 +109,13 @@ class Token{
 
     Token(): content(""), lexeme(Lexeme::UNKNOWN),finalized(false),nextToken(nullptr),currState(State::q0),flag(false){}
     Token(const char* cont, Lexeme lex): content(cont), lexeme(lex), finalized(false),nextToken(nullptr),currState(State::q0),flag(false){}
+=======
+    Token* nextToken;
+    State currState;
+    public:
+
+    Token(): content(""), lexeme(Lexeme::UNKNOWN),finalized(false),nextToken(nullptr),currState(State::q0){}
+>>>>>>> e765849e95c897eb133c26dfce7e26a3bf08c7af
     std::string getContent() const{
         return content;
     }
@@ -89,11 +123,16 @@ class Token{
         return lexeme;
     }
     Token* getNext() const{
+<<<<<<< HEAD
         return nextToken.get();
+=======
+        return nextToken;
+>>>>>>> e765849e95c897eb133c26dfce7e26a3bf08c7af
     }
     State getState() const{
         return currState;
     }
+<<<<<<< HEAD
     bool isFinished() const{
         return finalized;
     }
@@ -117,6 +156,13 @@ class Token{
     }
     void setLexeme(Lexeme lex){
         lexeme=lex;
+=======
+    void append(char input){
+        content+=input;
+    }
+    void next(Token* nextTok){
+        nextToken=nextTok;
+>>>>>>> e765849e95c897eb133c26dfce7e26a3bf08c7af
     }
 
 

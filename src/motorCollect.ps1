@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 
+=======
+$serialPort = "COM6"
+>>>>>>> e765849e95c897eb133c26dfce7e26a3bf08c7af
 
 
 $port = New-Object System.IO.Ports.SerialPort
@@ -29,6 +33,11 @@ $outputFile =Join-Path $dir ("dataTrial0.csv")
 "t,omega1,omega2" | Out-File -Encoding utf8 -FilePath $outputFile
 
 Write-Host "Enter A for 2 tests. Step input and natural dyanmics with ICs"
+<<<<<<< HEAD
+=======
+$script:ready="A"
+$port.WriteLine($script:ready)
+>>>>>>> e765849e95c897eb133c26dfce7e26a3bf08c7af
 
 
 while($true){

@@ -1,6 +1,9 @@
+<<<<<<< HEAD
 #include "Token.h"
 #include "Line.h"
 
+=======
+>>>>>>> e765849e95c897eb133c26dfce7e26a3bf08c7af
 namespace imp{
     bool isDigit(char input) {
         return (input<=57 &&input>=48);
@@ -23,22 +26,43 @@ namespace imp{
     bool isFlag(char input) {
         return (input =='!');
     }
+<<<<<<< HEAD
     bool isSymbol(char input) {
         return (input =='&' || input=='\\');
     }
 
+=======
+    bool isAmbersand(char input) {
+        return (input =='&');
+    }
+    bool isBackslash(char input) {
+        return (input =='\\');
+    }
+>>>>>>> e765849e95c897eb133c26dfce7e26a3bf08c7af
     bool isFrontParen(char input) {
         return (input =='(');
     }
     bool isBackParen(char input) {
         return (input ==')');
     }
+<<<<<<< HEAD
     bool isMatrix(char input) {
         return (input=='A'||input=='B'||input=='C');
+=======
+    bool isA(char input) {
+        return (input=='A');
+    }
+    bool isB(char input) {
+        return (input=='B');
+    }
+    bool isC(char input) {
+        return (input=='C');
+>>>>>>> e765849e95c897eb133c26dfce7e26a3bf08c7af
     }
     bool isT(char input) {
         return (input=='T');
     }
+<<<<<<< HEAD
     /*
 example input
 !variables;
@@ -250,3 +274,6 @@ std::unique_ptr<Token> TokensPerLine(Line* input){
     
 
 }
+=======
+}
+>>>>>>> e765849e95c897eb133c26dfce7e26a3bf08c7af
