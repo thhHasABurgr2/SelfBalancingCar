@@ -1,9 +1,6 @@
 #include <string>
-#include<iostream>
-<<<<<<< HEAD
-#include<memory>
-=======
->>>>>>> e765849e95c897eb133c26dfce7e26a3bf08c7af
+#include <iostream>
+#include <memory>
 #ifndef TOKEN_H
 #define TOKEN_H
 /*
@@ -27,146 +24,142 @@ T=40;
 
 */
 
-
-
-
-enum class State{
-    q0,//start
-    q1,//letter
-    q2,//number
-    q3,//!
-    q4,// operations:+,-,*,/
-    q5,//;
-<<<<<<< HEAD
-    q6,// symbol
-    q7, // (
-    q8, // )
-    q9,//=
-    qMatrix,// matrix state
-=======
-    q6,// &
-    q7,// "\"
-    q8, // (
-    q9, // )
-    q10,//=
-    q11, // .
-    qA,//A matrix
-    qB,//B matrix
-    qC,//C matrix
->>>>>>> e765849e95c897eb133c26dfce7e26a3bf08c7af
-    qT, // T(period)
-    qerr,//dont recognize or no DSA path for nonsense input
+enum class State
+{
+    q0,      // start
+    q1,      // letter
+    q2,      // number
+    q3,      //!
+    q4,      // operations:+,-,*,/
+    q5,      //;
+    q6,      // symbol
+    q7,      // (
+    q8,      // )
+    q9,      //=
+    qMatrix, // matrix state
+    qT,      // T(period)
+    qerr,    // dont recognize or no DSA path for nonsense input
 };
 
-
-
-
-
-
-
-
-
-
-
-
-enum class Lexeme{
-    FLAG,// stuff that start with !
-    IDENTIFIER,// variables, symbolic or not
-    NUMBER,//floats and numbers
-<<<<<<< HEAD
-    OPERATION, //  +,-,*,/, 
-    SYMBOL,// &,//
-    MATRIX// A, B, and C
-    T,// period
-    EQUAL,// =
-    SEMICOLON,// ;
-    FRONTPAREN,//(
-    BACKPAREN,//)
-=======
-    OPERATION, //  +,-,*,/, ()
-    SYMBOL,// &,//
-    A,// A matrix
-    B,// B matrix
-    C,// C matrix
-    T,// period
-    EQUAL,// =
-    SEMICOLON,// ;
->>>>>>> e765849e95c897eb133c26dfce7e26a3bf08c7af
+enum class Lexeme
+{
+    FLAG,       // stuff that start with !
+    IDENTIFIER, // variables, symbolic or not
+    NUMBER,     // floats and numbers
+    OPERATION,  //  +,-,*,/,
+    SYMBOL,     // &,//
+    MATRIX,     // A, B, and C
+    T,          // period
+    EQUAL,      // =
+    SEMICOLON,  // ;
+    FRONTPAREN, //(
+    BACKPAREN,  //)
     UNKNOWN,
- 
+
 };
 
-class Token{
-    private:
+class Token
+{
+private:
     std::string content;
     Lexeme lexeme;
     bool finalized;
-<<<<<<< HEAD
     std::unique_ptr<Token> nextToken;
     State currState;
     bool flag;
-    public:
 
-    Token(): content(""), lexeme(Lexeme::UNKNOWN),finalized(false),nextToken(nullptr),currState(State::q0),flag(false){}
-    Token(const char* cont, Lexeme lex): content(cont), lexeme(lex), finalized(false),nextToken(nullptr),currState(State::q0),flag(false){}
-=======
-    Token* nextToken;
-    State currState;
-    public:
-
-    Token(): content(""), lexeme(Lexeme::UNKNOWN),finalized(false),nextToken(nullptr),currState(State::q0){}
->>>>>>> e765849e95c897eb133c26dfce7e26a3bf08c7af
-    std::string getContent() const{
+public:
+    Token() : content(""), lexeme(Lexeme::UNKNOWN), finalized(false), nextToken(nullptr), currState(State::q0), flag(false) {}
+    Token(const char *cont, Lexeme lex) : content(cont), lexeme(lex), finalized(false), nextToken(nullptr), currState(State::q0), flag(false) {}
+    std::string getContent() const
+    {
         return content;
     }
-    Lexeme getLexeme() const{
+    Lexeme getLexeme() const
+    {
         return lexeme;
     }
-    Token* getNext() const{
-<<<<<<< HEAD
+    Token *getNext() const
+    {
         return nextToken.get();
-=======
-        return nextToken;
->>>>>>> e765849e95c897eb133c26dfce7e26a3bf08c7af
     }
-    State getState() const{
+    State getState() const
+    {
         return currState;
     }
-<<<<<<< HEAD
-    bool isFinished() const{
+    bool isFinished() const
+    {
         return finalized;
     }
-    bool isFlag() const{
+    bool isFlag() const
+    {
         return flag;
     }
-    void append(char input){
-        content+=input;
+    void append(char input)
+    {
+        content += input;
     }
-    void next(std::unique_ptr<Token> nextTok){
-        nextToken=std::move(nextTok);
+    void next(std::unique_ptr<Token> nextTok)
+    {
+        nextToken = std::move(nextTok);
     }
-    void finalize(){
-        finalized=true;
+    void finalize()
+    {
+        finalized = true;
     }
-    void state(State states){
-        currState=states;
+    void state(State states)
+    {
+        currState = states;
     }
-    void flago(){
-        flag=true;
+    void flago()
+    {
+        flag = true;
     }
-    void setLexeme(Lexeme lex){
-        lexeme=lex;
-=======
-    void append(char input){
-        content+=input;
+    void setLexeme(Lexeme lex)
+    {
+        lexeme = lex;
     }
-    void next(Token* nextTok){
-        nextToken=nextTok;
->>>>>>> e765849e95c897eb133c26dfce7e26a3bf08c7af
+    std::string LexemeAsString(Lexeme lex)
+    {
+        switch (lex)
+        {
+        case Lexeme::FLAG:
+            return "FLAG";
+        case Lexeme::IDENTIFIER:
+            return "IDENTIFIER";
+        case Lexeme::NUMBER:
+            return "NUMBER";
+        case Lexeme::OPERATION:
+            return "OPERATION";
+        case Lexeme::SYMBOL:
+            return "SYMBOL";
+        case Lexeme::MATRIX:
+            return "MATRIX";
+        case Lexeme::T:
+            return "T";
+        case Lexeme::EQUAL:
+            return "EQUAL";
+        case Lexeme::SEMICOLON:
+            return "SEMICOLON";
+        case Lexeme::FRONTPAREN:
+            return "FRONTPAREN";
+        case Lexeme::BACKPAREN:
+            return "BACKPAREN";
+        case Lexeme::UNKNOWN:
+            return "UNKNOWN";
+        default:
+            return "UNDEFINED";
+        }
     }
-
-
+    void printTokens()
+    {
+        Token *currToken = this;
+        while (currToken != nullptr)
+        {
+            std::cout << currToken->getContent() << " : LEXEME : " << currToken->LexemeAsString(currToken->getLexeme()) << std::endl;
+            currToken = currToken->getNext();
+        }
+    }
 };
-
 
 #endif

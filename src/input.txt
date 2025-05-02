@@ -1,0 +1,15 @@
+!variables;
+a=3.4;
+b=23.3;
+!end;
+!symbolic;
+c=4;
+!end;
+!matrix;
+A= a*b+c & c\ (d+2.3)*b;
+B= a*b+c & c\ (d+2.3)*b;
+C= a*b+c & c+9\ (d+2.3)*b;
+!end;
+!period;
+T=40;
+!end;

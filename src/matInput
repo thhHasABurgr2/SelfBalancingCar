@@ -1,0 +1,3 @@
+!matrix;
+A= a*b+c & e\ d+2.3\f &h;
+!end;

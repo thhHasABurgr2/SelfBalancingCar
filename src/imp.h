@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 #include "Token.h"
 #include "Line.h"
 
-=======
->>>>>>> e765849e95c897eb133c26dfce7e26a3bf08c7af
 namespace imp{
     bool isDigit(char input) {
         return (input<=57 &&input>=48);
@@ -26,43 +23,28 @@ namespace imp{
     bool isFlag(char input) {
         return (input =='!');
     }
-<<<<<<< HEAD
     bool isSymbol(char input) {
         return (input =='&' || input=='\\');
     }
 
-=======
     bool isAmbersand(char input) {
         return (input =='&');
     }
     bool isBackslash(char input) {
         return (input =='\\');
     }
->>>>>>> e765849e95c897eb133c26dfce7e26a3bf08c7af
     bool isFrontParen(char input) {
         return (input =='(');
     }
     bool isBackParen(char input) {
         return (input ==')');
     }
-<<<<<<< HEAD
     bool isMatrix(char input) {
         return (input=='A'||input=='B'||input=='C');
-=======
-    bool isA(char input) {
-        return (input=='A');
-    }
-    bool isB(char input) {
-        return (input=='B');
-    }
-    bool isC(char input) {
-        return (input=='C');
->>>>>>> e765849e95c897eb133c26dfce7e26a3bf08c7af
     }
     bool isT(char input) {
         return (input=='T');
     }
-<<<<<<< HEAD
     /*
 example input
 !variables;
@@ -105,7 +87,7 @@ std::unique_ptr<Token> TokensPerLine(Line* input){
                        
                     }
                     else if(isMatrix(inputc)){
-                        currentToken->state(State::qMATRIX);
+                        currentToken->state(State::qMatrix);
                     }
                    
                     else if(isT(inputc)){
@@ -113,6 +95,8 @@ std::unique_ptr<Token> TokensPerLine(Line* input){
                     }
                     else if(isFrontParen(inputc)){
                         currentToken->state(State::q7);
+                    }else if(isEqual(inputc)){
+                        currentToken->state(State::q9);
                     }
                     else{
                         currentToken->state(State::qerr);
@@ -121,9 +105,13 @@ std::unique_ptr<Token> TokensPerLine(Line* input){
                 }
                 else if(currentToken->getState()==State::q1){
                     currentToken->append(inputc);
+                    currentToken->setLexeme(Lexeme::IDENTIFIER);
+                    std::cout << "Processing char: " << inputc << " at i = " << i << std::endl;
+                    currentToken->printTokens();
                     i++;
                     inputc=content[i];
-                    currentToken->setLexeme(Lexeme::IDENTIFIER);
+                    
+                    
                     if(isLetter(inputc)){
                         continue;
                     }
@@ -187,17 +175,22 @@ std::unique_ptr<Token> TokensPerLine(Line* input){
                         
                 else if(currentToken->getState()==State::q4){
                     currentToken->finalize();
-                    currentToken->next(std::make_unique<Token>(inputc,Lexeme::OPERATION));// expecting an operaition rn
+                    std::cout << "Processing char: " << inputc << " at i = " << i << std::endl;
+                    currentToken->printTokens();
+
+                    currentToken->next(std::make_unique<Token>(std::string(1,inputc).c_str(),Lexeme::OPERATION));// expecting an operaition rn
                     currentToken = currentToken->getNext();
                     currentToken->finalize();
+                    currentToken->printTokens();
                     currentToken->next(std::make_unique<Token>());
                     currentToken = currentToken->getNext();
                     i++;
                     inputc=content[i];
+                    currentToken->printTokens();
                 }
                 else if(currentToken->getState()==State::q5){
                     currentToken->finalize();
-                    currentToken->next(std::make_unique<Token>(inputc,Lexeme::SEMICOLON));// expecting an operaition rn
+                    currentToken->next(std::make_unique<Token>(std::string(1,inputc).c_str(),Lexeme::SEMICOLON));// expecting an operaition rn
                     currentToken = currentToken->getNext();
                     currentToken->finalize();
                     currentToken->next(std::make_unique<Token>());
@@ -207,7 +200,7 @@ std::unique_ptr<Token> TokensPerLine(Line* input){
                 }
                 else if(currentToken->getState()==State::q6){
                     currentToken->finalize();
-                    currentToken->next(std::make_unique<Token>(inputc,Lexeme::SYMBOL));// expecting an operaition rn
+                    currentToken->next(std::make_unique<Token>(std::string(1,inputc).c_str(),Lexeme::SYMBOL));// expecting an operaition rn
                     currentToken = currentToken->getNext();
                     currentToken->finalize();
                     currentToken->next(std::make_unique<Token>());
@@ -217,7 +210,7 @@ std::unique_ptr<Token> TokensPerLine(Line* input){
                 }
                 else if(currentToken->getState()==State::q7){
                     currentToken->finalize();
-                    currentToken->next(std::make_unique<Token>(inputc,Lexeme::FRONTPAREN));// expecting an operaition rn
+                    currentToken->next(std::make_unique<Token>(std::string(1,inputc).c_str(),Lexeme::FRONTPAREN));// expecting an operaition rn
                     currentToken = currentToken->getNext();
                     currentToken->finalize();
                     currentToken->next(std::make_unique<Token>());
@@ -227,7 +220,7 @@ std::unique_ptr<Token> TokensPerLine(Line* input){
                 }
                 else if(currentToken->getState()==State::q8){
                     currentToken->finalize();
-                    currentToken->next(std::make_unique<Token>(inputc,Lexeme::BACKPAREN));// expecting an operaition rn
+                    currentToken->next(std::make_unique<Token>(std::string(1,inputc).c_str(),Lexeme::BACKPAREN));// expecting an operaition rn
                     currentToken = currentToken->getNext();
                     currentToken->finalize();
                     currentToken->next(std::make_unique<Token>());
@@ -237,7 +230,7 @@ std::unique_ptr<Token> TokensPerLine(Line* input){
                 }
                 else if(currentToken->getState()==State::q9){
                     currentToken->finalize();
-                    currentToken->next(std::make_unique<Token>(inputc,Lexeme::EQUAL));// expecting an operaition rn
+                    currentToken->next(std::make_unique<Token>(std::string(1,inputc).c_str(),Lexeme::EQUAL));// expecting an operaition rn
                     currentToken = currentToken->getNext();
                     currentToken->finalize();
                     currentToken->next(std::make_unique<Token>());
@@ -245,14 +238,34 @@ std::unique_ptr<Token> TokensPerLine(Line* input){
                     i++;
                     inputc=content[i];
                 }
-                else if(currentToken->getState()==State::qMATRIX){    
+                else if(currentToken->getState()==State::qMatrix){    
                     currentToken->setLexeme(Lexeme::MATRIX);
                     currentToken->append(inputc);
+                    currentToken->finalize();
+                    std::cout << "Processing char: " << inputc << " at i = " << i << std::endl;
+                    currentToken->printTokens();
+
                     i++;
                     inputc=content[i];
-                    currentToken->finalize();
-                    currentToken->next(std::make_unique<Token>());
-                    currentToken = currentToken->getNext();
+                    std::cout << "Processing char: " << inputc << " at i = " << i << std::endl;
+
+                    if(isEqual(inputc)){
+                        currentToken->next(std::make_unique<Token>(std::string(1,inputc).c_str(),Lexeme::EQUAL));
+                        currentToken = currentToken->getNext();
+                        currentToken->finalize();
+                        currentToken->printTokens();
+                        currentToken->next(std::make_unique<Token>());
+                        currentToken = currentToken->getNext();
+                        i++;
+                        inputc=content[i];  
+                        std::cout << "Processing char: " << inputc << " at i = " << i << std::endl;
+    
+                    }else{
+                        currentToken->state(State::qerr);
+                    }
+                    currentToken->printTokens();
+                                     
+                   
                 }
                 else if(currentToken->getState()==State::qT){   
                     currentToken->setLexeme(Lexeme::T);
@@ -265,15 +278,14 @@ std::unique_ptr<Token> TokensPerLine(Line* input){
                 }
                 
                 else if(currentToken->getState()==State::qerr){
-                    std::cout << "bad char\n";;
+                    std::cout << "bad char "+std::string(1,inputc)<<std::endl;
+                    std::cout <<"stuff inside currentToken: "+currentToken->getContent()<<std::endl;
                     exit(1);
                 }
         }
-        return std::move(head);
+        return head;
     }
     
 
 }
-=======
-}
->>>>>>> e765849e95c897eb133c26dfce7e26a3bf08c7af
+
